@@ -15,11 +15,12 @@
 
     $: filteredList = list.filter(l => l.addedToList).sort((a, b) => (a.order > b.order) ? 1 : -1)
     $: isVisible = filteredList.length > 0 ? true : false
-    $: hasNineImages = filteredList.length === 9 ? true : false
+    $: hasNineImages = filteredList.filter(i => i.processedImage !== '').length === 9 ? true : false
     $: hasImages = filteredList.length < 1 ? false : true
     $: filteredList.length === 0 ? isActive = false : null
     $: filledFilteredList = fillList(filteredList)
     $: isLoading = filteredList.filter(i => i.processedImage === '').length > 0 ? true : false
+    $: hasNineImages ? isActive = true : null
     // $: console.log(isLoading);
     // $: console.log(filteredList);
     // $: console.log(isActive, hasImages);
@@ -74,6 +75,10 @@
         generateTopNine(newList)
     }
 
+    const clearList = () => {
+        listStore.clearList()
+    }
+
 </script>
 
 <style>
@@ -98,15 +103,15 @@
     }
 
     .grid.active {
-        display: grid;
+        /* display: grid;
         grid-gap: 3px;
         padding: 3px;
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(3, 1fr);
         z-index: 100;
-        position: fixed;
+        position: fixed; */
         top: 5vh;
-        background-color: #fff;
+        /* background-color: #fff; */
         transition: top .3s;
         opacity: 1;
     }
@@ -144,6 +149,11 @@
         .grid.active > .cell {
             width: 110px;
             height: 110px;
+        }
+
+        .grid.active {
+            grid-gap: 2px;
+            padding: 2px;
         }
     }
 
@@ -213,7 +223,7 @@
     }
 
     .btn > span {
-        margin-left: 1rem;
+        margin-left: .6rem;
     }
 
     .loading-wrapper {
@@ -252,11 +262,16 @@
                 {#if hasNineImages}
                 <div class="btn" in:fade={{delay: 200, duration: 200}} out:fade={{duration: 200}} on:click={handleDownloadTopNine}>
                     <i class="material-icons">grid_on</i>
-                    <span>Download Top 9</span> 
+                    <span>Download</span> 
                 </div>
                 {/if}
                 <div class="btn" in:fade={{delay: 200, duration: 200}} out:fade={{duration: 200}} on:click={toggleGrid}>
                     <i class="material-icons">close</i>
+                    <span>Close</span>
+                </div> 
+                <div class="btn" in:fade={{delay: 200, duration: 200}} out:fade={{duration: 200}} on:click={clearList}>
+                    <i class="material-icons">delete</i>
+                    <span>Clear</span>
                 </div> 
             </div>
         {/if}
