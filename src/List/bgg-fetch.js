@@ -168,6 +168,7 @@ const createBGGSearchList = (items) => {
     bggGameDataDetails.imageOriginal = item.image ? item.image['#text'] : ''
     bggGameDataDetails.image = item.thumbnail ? item.thumbnail['#text'] : ''
     bggGameDataDetails.bggId = item['@attributes'].id
+    bggGameDataDetails.processedImage = ''
 
     // Stats
     // .statistics.ratings.average["@attributes"].value
@@ -246,6 +247,7 @@ const createBGGCollectionList = (data) => {
       // sourceType: 'collection',
       imageOriginal: item.image ? item.image['#text'] : '',
       image: item.thumbnail ? item.thumbnail['#text'] : '',
+      processedImage: '',
       // yearPublished: item.yearpublished ? parseInt(item.yearpublished['#text']) : 0,
       bggId: item['@attributes'].objectid,
       own: statusAttributes.own === '1',

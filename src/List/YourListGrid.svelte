@@ -6,6 +6,7 @@
     import { generateTopNine } from './top-nine.js'
 
     export let list = []
+    // export let isLoading = false
 
     let isActive = false
     let isVisible = false
@@ -18,7 +19,9 @@
     $: hasImages = filteredList.length < 1 ? false : true
     $: filteredList.length === 0 ? isActive = false : null
     $: filledFilteredList = fillList(filteredList)
-    // $: console.log(filledFilteredList);
+    $: isLoading = filteredList.filter(i => i.processedImage === '').length > 0 ? true : false
+    // $: console.log(isLoading);
+    // $: console.log(filteredList);
     // $: console.log(isActive, hasImages);
 
     const fillList = (filteredList) => {
@@ -88,19 +91,9 @@
         display: flex;
         justify-content: center;
         align-content: center;
-        /* position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh; */
     }
 
     .wrapper.active {
-        /* position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh; */
         z-index: 10;
     }
 
@@ -114,7 +107,6 @@
         position: fixed;
         top: 5vh;
         background-color: #fff;
-        /* max-width: 62rem; */
         transition: top .3s;
         opacity: 1;
     }
@@ -129,7 +121,6 @@
         position: fixed;
         top: 80vh;
         background-color: #fff;
-        /* max-width: 15rem; */
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
         transition: all .3s;
         opacity: .7;
@@ -147,6 +138,13 @@
         background-color: #ccc;
         transition: width .3s, height .3s;
 
+    }
+
+    @media only screen and (max-width: 768px) {
+        .grid.active > .cell {
+            width: 110px;
+            height: 110px;
+        }
     }
 
     .grid > .cell {
@@ -196,6 +194,12 @@
         align-items: center;
     }
 
+    @media only screen and (max-width: 768px) {
+        .buttons {
+            top: calc(2vh + 368px);
+        }
+    }
+
     .btn {
         border-radius: 8px;
         padding: 10px 15px;
@@ -212,6 +216,12 @@
         margin-left: 1rem;
     }
 
+    .loading-wrapper {
+        position: fixed;
+        top: 82vh;
+        z-index: 200;
+    }
+
 </style>
 
 {#if isActive && hasImages}
@@ -220,6 +230,11 @@
 
 {#if isVisible}
     <div class="wrapper" transition:fade class:active="{isActive}">
+        {#if isLoading}
+            <div class="loading-wrapper" transition:fade>
+                <Loading />
+            </div>
+        {/if}
         <div class="grid" class:active="{isActive}" on:click|stopPropagation="{!isActive ? toggleGrid : null}">
             {#each filledFilteredList as i (i.id)}
                 <div class="cell" on:drop={(event) => drop(event, i.order)} on:dragover={(event) => dragover(event)}>
@@ -235,7 +250,7 @@
         {#if isActive}
             <div class="buttons">
                 {#if hasNineImages}
-                <div class="btn" transition:fade={{duration: 200}} on:click={handleDownloadTopNine}>
+                <div class="btn" in:fade={{delay: 200, duration: 200}} out:fade={{duration: 200}} on:click={handleDownloadTopNine}>
                     <i class="material-icons">grid_on</i>
                     <span>Download Top 9</span> 
                 </div>

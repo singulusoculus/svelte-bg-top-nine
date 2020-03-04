@@ -24,7 +24,7 @@
 
 <Collapsible title="Your List" icon="view_list" isOpen={true}>
     <span slot="header-button">
-        <Button icon="clear" text="Clear" on:click="{clearList}" />
+        <Button icon="delete" text="Clear" on:click="{clearList}" />
     </span>
     <Collection games={addedList} icon="delete" on:add="{removeListItem}" />
 </Collapsible>

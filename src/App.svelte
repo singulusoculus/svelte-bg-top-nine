@@ -39,9 +39,10 @@
 		width: 100%;
 	}
 
-	@media only screen and (max-width: 600px) {
+	@media only screen and (max-width: 768px) {
 		.lists {
 			flex-direction: column;
+			align-items: center;
 		}
 
 		.lists > div {

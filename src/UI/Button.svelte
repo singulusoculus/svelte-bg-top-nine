@@ -13,7 +13,7 @@
         -webkit-transition: all .2s ease-out;
         transition: all .2s ease-out;
         cursor: pointer;
-        font-size: 14px;
+        font-size: 1.4rem;
         outline: 0;
         height: 36px;
         line-height: 36px;
