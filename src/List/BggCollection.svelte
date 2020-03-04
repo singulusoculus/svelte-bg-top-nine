@@ -102,9 +102,14 @@
             return
         } else {
             isLoading = true
-            listStore.addBGGCollection(await getBGGCollection(bggUserName, getExpansions))
-            isLoading = false
-            hasCollection = true
+            try {
+                listStore.addBGGCollection(await getBGGCollection(bggUserName, getExpansions))
+                isLoading = false
+                hasCollection = true
+            } catch(err) {
+                isLoading = false
+                throw err
+            }
         }
     }
 
@@ -173,7 +178,7 @@
         <TextInput label="BGG User Name" id="bgg-username" on:textChange="{(event) => bggUserName = event.detail.trim().replace(/ /g, '%20')}" />
         <div class="get-collection-controls">
             <Switch title="Include Expansions?" on:clicked="{(event) => getExpansions = event.detail}" />
-            <Button text="Go" icon="arrow_forward" on:click={handleBGGCollectionRequest} />
+            <Button text="Go" icon="arrow_forward" on:click={handleBGGCollectionRequest} disabled={isLoading} />
         </div>
     </div>
         {#if isLoading}

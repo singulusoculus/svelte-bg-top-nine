@@ -70,7 +70,7 @@
 				<BggSearch list="{$list}" />
 			</div>
 			<div>
-				<YourList list="{$list}" />
+				<!-- <YourList list="{$list}" /> -->
 			</div>
 		</div>
 	</main>

@@ -1,6 +1,7 @@
 <script>
     export let text = "Placeholder"
     export let icon = "arrow_forward"
+    export let disabled = false
 </script>
 
 <style>
@@ -46,7 +47,7 @@
 </style>
 
 
-<button type="submit" on:click|stopPropagation>
+<button type="submit" on:click|stopPropagation disabled={disabled}>
     <span>{text}</span>
     <i class="material-icons">
         {icon}

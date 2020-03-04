@@ -30,9 +30,11 @@ const getBGGData = (url) => {
           // Always resolves an array
           resolve(bggJSONData)
         }).catch((error) => {
-          console.log(error)
+          //console.log(error)
           alert(`There was an error fetching your collection. Check the username you entered. BGG servers may also be busy or you have made too many requests. Please try again in a minute.`)
-        // disable loader
+          //resolve(error)
+          reject(error)
+          // disable loader
         // enable submit button
         })
     })
@@ -212,20 +214,27 @@ const getBGGCollection = (user, expansions) => new Promise(async (resolve, rejec
   if (!expansions) {
       queryUrl += '&excludesubtype=boardgameexpansion'
   }
+    let bggList
 
-    let results = await getBGGData(queryUrl)
-    let bggList = createBGGCollectionList(results)
+    try {
+      let results = await getBGGData(queryUrl)   
+      bggList = createBGGCollectionList(results)
+  
+      queryUrl += '&played=1'
+      let playedResults = await getBGGData(queryUrl)
+      let played = createBGGCollectionList(playedResults)
+  
+      played.forEach((item) => {
+        bggList.push(item)
+      })
+  
+      bggList = bggList.filter((list, index, self) => self.findIndex(l => l.bggId === list.bggId) === index)
+      resolve(bggList)
+    } catch (err) {
+      console.log(err);
+      reject(err)
+    }
 
-    queryUrl += '&played=1'
-    let playedResults = await getBGGData(queryUrl)
-    let played = createBGGCollectionList(playedResults)
-
-    played.forEach((item) => {
-      bggList.push(item)
-    })
-
-    bggList = bggList.filter((list, index, self) => self.findIndex(l => l.bggId === list.bggId) === index)
-    resolve(bggList)
 
 }) 
 
