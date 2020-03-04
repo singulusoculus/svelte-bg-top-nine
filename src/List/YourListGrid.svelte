@@ -120,6 +120,8 @@
     }
 
     .grid.active {
+        grid-gap: 2px;
+        padding: 2px;
         top: 5vh;
         left: calc(50% - 618px / 2);
         transition: all .3s;

@@ -62,7 +62,7 @@
 
 	<main>
 		<Card>
-			To create your Top Nine: 1) Add 9 games to your list either from your BGG collection or BGG search. 2) Click the Generate Top 9 button that pops up.
+			To create your Top Nine: 1) Add 9 games either from your BGG collection or BGG search. 2) Click the Download button when its available.
 		</Card>
 		<div class="lists">
 			<div>
