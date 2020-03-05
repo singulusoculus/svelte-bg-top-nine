@@ -1,7 +1,7 @@
 
 // PROCESS IMAGE URL
 // This creates an image file from the url, resizes it, and then crops it. 
-const processImage = (index, image) => new Promise( async (resolve, reject) => {
+const processImage = (index, image) => new Promise(async (resolve, reject) => {
     const filename = `${index}.png`
     const mimeType = 'image/jpeg'
     const proxyURL = 'https://mighty-waters-78900.herokuapp.com/' // my implementation of cors-anywhere
@@ -9,22 +9,21 @@ const processImage = (index, image) => new Promise( async (resolve, reject) => {
     const file = await urlToFile(image, filename, mimeType, proxyURL)
     const imageData = await resizeImage(file, index)
     const croppedImage = cropImage(imageData) 
+    alert(croppedImage.src)
 
     resolve(croppedImage)
 })
 
-const urlToFile = (url, filename, mimeType, proxyURL = '') => {
-    return new Promise(async (resolve, reject) => {
-      mimeType = mimeType || (url.match(/^data:([^;]+);/) || '')[1]
-      const response = await fetch(proxyURL + url)
-      // console.log('UTF Response: ', response)
-      const buf = await response.arrayBuffer()
-      // console.log('UTF Buffer: ', buf)
-      const file = new File([buf], filename, { type: mimeType })
-      // console.log('UTF File: ', file)
-      resolve(file)
-    })
-  }
+const urlToFile = (url, filename, mimeType, proxyURL = '') =>  new Promise(async (resolve, reject) => {
+    mimeType = mimeType || (url.match(/^data:([^;]+);/) || '')[1]
+    const response = await fetch(proxyURL + url)
+    // alert('UTF Response: ', response)
+    const buf = await response.arrayBuffer()
+    // console.log('UTF Buffer: ', buf)
+    const file = new File([buf], filename, { type: mimeType })
+    // console.log('UTF File: ', file)
+    resolve(file)
+})
 
 const resizeImage = (file, index) => {
     const maxWidth = 352
@@ -33,8 +32,7 @@ const resizeImage = (file, index) => {
     const image = new Image()
     const canvas = document.createElement('canvas')
 
-    const resize = async () => {
-        return new Promise((resolve, reject) => {
+    const resize = () => new Promise((resolve, reject) => {
         let width = image.width
         let height = image.height
         if (width > height) {
@@ -81,18 +79,6 @@ const resizeImage = (file, index) => {
         const newImageEl = new Image()
         newImageEl.src = dataUrl
 
-        // const baseCoordinates = [
-        //   { x: 6, y: 6 },
-        //   { x: 364, y: 6 },
-        //   { x: 722, y: 6 },
-        //   { x: 6, y: 364 },
-        //   { x: 364, y: 364 },
-        //   { x: 722, y: 364 },
-        //   { x: 6, y: 722 },
-        //   { x: 364, y: 722 },
-        //   { x: 722, y: 722 }
-        // ]
-
         const data = {
             newImageEl,
             coverWidth,
@@ -101,14 +87,14 @@ const resizeImage = (file, index) => {
             yOffset,
             index
         }
+
         resolve(data)
-        })
-    }
+    })
 
     return new Promise((resolve, reject) => {
         if (!file.type.match(/image.*/)) {
-        reject(new Error('Not an image'))
-        return
+            reject(new Error('Not an image'))
+            return
         }
         reader.onload = (readerEvent) => {
         image.onload = async () => {
@@ -116,9 +102,9 @@ const resizeImage = (file, index) => {
             // console.log('resize: ', data)
             resolve(data)
         }
-        image.src = readerEvent.target.result
+            image.src = readerEvent.target.result
         }
-        reader.readAsDataURL(file)
+            reader.readAsDataURL(file)
     })
 }
 
@@ -179,7 +165,7 @@ const generateTopNine = async (images) => {
     downloadFinalImage(canvasEl)
 }
 
-const renderBackground = (ctx) => { return new Promise((resolve, reject) => {
+const renderBackground = (ctx) => new Promise((resolve, reject) => {
       const backgroundImage = new Image()
       backgroundImage.onload = () => {
         ctx.drawImage(backgroundImage, 0, 0)
@@ -187,9 +173,8 @@ const renderBackground = (ctx) => { return new Promise((resolve, reject) => {
       }
       backgroundImage.src = '../images/background.png' // '../images/background.png'
     })
-}
 
-const renderLogo = (ctx) => { return new Promise((resolve, reject) => {
+const renderLogo = (ctx) => new Promise((resolve, reject) => {
       const logoImage = new Image()
       logoImage.onload = () => {
         ctx.drawImage(logoImage, 665, 995)
@@ -197,13 +182,11 @@ const renderLogo = (ctx) => { return new Promise((resolve, reject) => {
       }
       logoImage.src = '../images/pm-banner-top9.png' // '../images/pm-banner-top9.png'
     })
-}
 
-const renderImage = (data, ctx) => { return new Promise((resolve, reject) => {
+const renderImage = (data, ctx) => new Promise((resolve, reject) => {
         ctx.drawImage(data.image, data.x, data.y)
         resolve()
     })
-}
 
 const downloadFinalImage = async (canvas) => {
     const finalImage = canvas.toDataURL('image/png')
