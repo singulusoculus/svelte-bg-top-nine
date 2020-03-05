@@ -106,7 +106,7 @@ const customListStore = {
             const index = items.findIndex(i => i.id === id)
             const itemToUpdate = items[index]
             itemToUpdate.processedImage = image
-            alert(itemToUpdate.processedImage.src)
+            // alert(itemToUpdate.processedImage.src)
             const updatedItems = [...items]
             updatedItems[index] = itemToUpdate
             return updatedItems

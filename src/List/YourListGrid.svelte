@@ -26,6 +26,7 @@
     // $: console.log(isLoading);
     // $: console.log(filteredList);
     // $: console.log(isActive, hasImages);
+    $: alert(filteredList[0].processedImage.src)
 
     const fillList = (filteredList) => {
         const length = filteredList.filter(i => i.image).length
