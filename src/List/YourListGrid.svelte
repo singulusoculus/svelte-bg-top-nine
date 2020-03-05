@@ -12,6 +12,7 @@
     // let isVisible = false
     let hasNineImages = false
     let hasImages = false
+    let image
 
     // let isLoading = true
 
@@ -23,10 +24,9 @@
     $: filledFilteredList = fillList(filteredList)
     $: isLoading = filteredList.filter(i => i.processedImage === '').length > 0 ? true : false
     $: hasNineImages ? isActive = true : null
-    // $: console.log(isLoading);
+    $: console.log(image);
     // $: console.log(filteredList);
     // $: console.log(isActive, hasImages);
-    $: alert(filteredList[0].processedImage.src)
 
     const fillList = (filteredList) => {
         const length = filteredList.filter(i => i.image).length
@@ -266,7 +266,7 @@
             {#each filledFilteredList as i (i.id)}
                 <div class="cell" on:drop={(event) => drop(event, i.order)} on:dragover={(event) => dragover(event)}>
                     {#if i.processedImage}
-                        <img src="{i.processedImage.src}" alt="{i.name}" draggable="true" on:dragstart="{(event) => dragstart(event, i.order)}">
+                        <img src="{i.processedImage.src}" alt="{i.name}" draggable="true" on:dragstart="{(event) => dragstart(event, i.order)}" bind:this={image}>
                     {/if}
                     {#if i.image}
                         <i class="material-icons delete" on:click|stopPropagation={removeItem(i.id)}>delete</i>
