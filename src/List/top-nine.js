@@ -7,12 +7,12 @@ const processImage = (index, image) => new Promise(async (resolve, reject) => {
     const proxyURL = 'https://mighty-waters-78900.herokuapp.com/' // my implementation of cors-anywhere
 
     const file = await urlToFile(image, filename, mimeType, proxyURL)
-    const imageData = await resizeImage(file, index)
-    console.log('resized Image: ', imageData.newImageEl.src)
-    const croppedImage = await cropImage(imageData) 
-    console.log('croppedImage: ', croppedImage.src)
+    const imageEl = await resizeImage(file, index)
+    // console.log('resized Image: ', imageData.newImageEl.src)
+    // const croppedImage = await cropImage(imageData) 
+    // console.log('croppedImage: ', croppedImage.src)
 
-    resolve(croppedImage)
+    resolve(imageEl)
 })
 
 const urlToFile = (url, filename, mimeType, proxyURL = '') =>  new Promise(async (resolve, reject) => {
@@ -31,7 +31,7 @@ const resizeImage = (file, index) => {
     const maxHeight = 352
     const reader = new FileReader()
     const image = new Image()
-    const canvas = document.createElement('canvas')
+    const canvasResize = document.createElement('canvas')
 
     const resize = () => new Promise((resolve, reject) => {
         let width = image.width
@@ -72,24 +72,31 @@ const resizeImage = (file, index) => {
             xOffset = (maxWidth - coverWidth) / 2
         }
 
-        canvas.width = width
-        canvas.height = height
-        canvas.getContext('2d').drawImage(image, 0, 0, width, height)
-        const dataUrl = canvas.toDataURL('image/png')
 
-        const newImageEl = new Image()
-        newImageEl.src = dataUrl
+        // Resize
+        canvasResize.width = width
+        canvasResize.height = height
+        canvasResize.getContext('2d').drawImage(image, 0, 0, width, height)
+        const resizedDataUrl = canvasResize.toDataURL('image/png')
 
-        const data = {
-            newImageEl,
-            coverWidth,
-            coverHeight,
-            xOffset,
-            yOffset,
-            index
+        const resizedImageEl = new Image()
+        resizedImageEl.onload = () => {
+            // Crop
+            const canvasCrop = document.createElement('canvas')
+            canvasCrop.width = 352
+            canvasCrop.height = 352
+            canvasCrop.getContext('2d').drawImage(resizedImageEl, 0 + xOffset, 0 + yOffset, coverWidth, coverHeight)
+    
+            const croppedDataUrl = canvasCrop.toDataURL('image/png')
+        
+            const croppedImageEl = new Image()
+            croppedImageEl.onload = () => {
+                resolve(croppedImageEl)
+            }
+            croppedImageEl.src = croppedDataUrl
         }
 
-        resolve(data)
+        resizedImageEl.src = resizedDataUrl
     })
 
     return new Promise((resolve, reject) => {
@@ -98,12 +105,12 @@ const resizeImage = (file, index) => {
             return
         }
         reader.onload = (readerEvent) => {
-        image.onload = async () => {
-            const data = await resize()
-            // console.log('resize: ', data)
-            resolve(data)
-        }
-            image.src = readerEvent.target.result
+            image.onload = async () => {
+                const data = await resize()
+                // console.log('resize: ', data)
+                resolve(data)
+            }
+                image.src = readerEvent.target.result
         }
             reader.readAsDataURL(file)
     })
