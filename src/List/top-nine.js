@@ -8,7 +8,7 @@ const processImage = (index, image) => new Promise(async (resolve, reject) => {
 
     const file = await urlToFile(image, filename, mimeType, proxyURL)
     const imageData = await resizeImage(file, index)
-    const croppedImage = cropImage(imageData) 
+    const croppedImage = await cropImage(imageData) 
 
     resolve(croppedImage)
 })
@@ -107,7 +107,7 @@ const resizeImage = (file, index) => {
     })
 }
 
-const cropImage = (data) => {
+const cropImage = (data) => new Promise((resolve, reject) => {
     const canvasSingle = document.createElement('canvas')
     canvasSingle.width = 352
     canvasSingle.height = 352
@@ -119,8 +119,10 @@ const cropImage = (data) => {
     const croppedImageEl = new Image()
     croppedImageEl.src = dataUrl
 
-    return croppedImageEl
-}
+    resolve(croppedImageEl)
+    
+})
+
 
 
 // GENERATE TOP NINE 
