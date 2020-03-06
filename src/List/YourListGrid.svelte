@@ -24,8 +24,9 @@
     $: filledFilteredList = fillList(filteredList)
     $: isLoading = filteredList.filter(i => i.processedImage === '').length > 0 ? true : false
     $: hasNineImages ? isActive = true : null
-    $: console.log(image);
-    // $: console.log(filteredList);
+    $: console.log(image ? image.src : 'No image');
+    $: console.log('Loading: ', isLoading)
+    $: console.log('filteredList: ', filteredList);
     // $: console.log(isActive, hasImages);
 
     const fillList = (filteredList) => {
@@ -217,7 +218,7 @@
 
     @media only screen and (max-width: 768px) {
         .grid {
-            top: 80vh;
+            top: 70vh;
             left: unset;
             opacity: .7;
         }
@@ -225,6 +226,12 @@
         .grid.active > .cell {
             width: 110px;
             height: 110px;
+        }
+
+        .grid.active > .cell > .delete {
+            opacity: 1;
+            transition: opacity .3s;
+            font-size: 20px;
         }
 
         .grid.active {
@@ -244,8 +251,9 @@
         }
 
         .loading-wrapper {
-            top: 82vh;
-            left: unset;
+            top: 72vh;
+            left: 36%;
+            position: fixed;
         }
     }
 
