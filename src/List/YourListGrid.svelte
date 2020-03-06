@@ -24,9 +24,7 @@
     $: filledFilteredList = fillList(filteredList)
     $: isLoading = filteredList.filter(i => i.processedImage === '').length > 0 ? true : false
     $: hasNineImages ? isActive = true : null
-    $: console.log(image ? image.src : 'No image');
-    $: console.log('Loading: ', isLoading)
-    $: console.log('filteredList: ', filteredList);
+    $: console.log('image source: ', image ? image.src : 'No image');
     // $: console.log(isActive, hasImages);
 
     const fillList = (filteredList) => {

@@ -8,7 +8,9 @@ const processImage = (index, image) => new Promise(async (resolve, reject) => {
 
     const file = await urlToFile(image, filename, mimeType, proxyURL)
     const imageData = await resizeImage(file, index)
+    console.log('resized Image: ', imageData.newImageEl.src)
     const croppedImage = await cropImage(imageData) 
+    console.log('croppedImage: ', croppedImage.src)
 
     resolve(croppedImage)
 })
