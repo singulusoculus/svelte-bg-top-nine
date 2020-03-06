@@ -16,7 +16,6 @@
 
 	$: filteredList = $list.filter(l => l.addedToList).sort((a, b) => (a.order > b.order) ? 1 : -1)
 	$: isVisible = filteredList.length > 0 ? true : false
-	$: console.log(isMobile, isVisible);
 
 
 </script>
@@ -49,7 +48,7 @@
 
 	span {
 		display: block;
-		padding-bottom: 105px;
+		padding-bottom: 110px;
 	}
 
 	@media only screen and (max-width: 768px) {
@@ -74,11 +73,12 @@
 	<Header logo="/images/pm-logo.png">Top Nine Generator</Header>
 
 	<main>
-		<Card>
-			To create your Top Nine: 1) Add 9 games either from your BGG collection or BGG search. 2) Click the Download button when its available.
-		</Card>
 		{#if isMobile && isVisible}
         	<span transition:slide></span>
+		{:else}
+			<Card>
+				To create your Top Nine: 1) Add 9 games either from your BGG collection or BGG search. 2) Click the Download button when its available.
+			</Card>
     	{/if}
 		<div class="lists">
 			<div>

@@ -214,7 +214,7 @@
 
     @media only screen and (max-width: 768px) {
         .grid {
-            top: 20vh;
+            top: 7vh;
             left: unset;
             opacity: .5;
         }
@@ -247,7 +247,7 @@
         }
 
         .loading-wrapper {
-            top: 20vh;
+            top: 7vh;
             left: 36%;
             position: fixed;
             opacity: 1;
