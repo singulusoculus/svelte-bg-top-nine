@@ -1,4 +1,6 @@
 <script>
+    import { fade, fly, slide } from 'svelte/transition'
+
 	import Header from './UI/Header.svelte'
 	import Card from './UI/Card.svelte'
 	import Footer from './UI/Footer.svelte'
@@ -10,6 +12,12 @@
 	import list from './List/list-store.js'
 
 	let version = '2.0.0'
+	const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+
+	$: filteredList = $list.filter(l => l.addedToList).sort((a, b) => (a.order > b.order) ? 1 : -1)
+	$: isVisible = filteredList.length > 0 ? true : false
+	$: console.log(isMobile, isVisible);
+
 
 </script>
 
@@ -39,6 +47,11 @@
 		width: 100%;
 	}
 
+	span {
+		display: block;
+		padding-bottom: 105px;
+	}
+
 	@media only screen and (max-width: 768px) {
 		.lists {
 			flex-direction: column;
@@ -64,6 +77,9 @@
 		<Card>
 			To create your Top Nine: 1) Add 9 games either from your BGG collection or BGG search. 2) Click the Download button when its available.
 		</Card>
+		{#if isMobile && isVisible}
+        	<span transition:slide></span>
+    	{/if}
 		<div class="lists">
 			<div>
 				<BggCollection list="{$list}" />

@@ -1,5 +1,5 @@
 <script>
-    import { fade } from 'svelte/transition'
+    import { fade, fly } from 'svelte/transition'
     import { flip } from 'svelte/animate'
     import Loading from '../UI/Loading.svelte'
     import listStore from './list-store'
@@ -9,7 +9,7 @@
 
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
     let isActive = false
-    // let isVisible = false
+    let isVisible = false
     let hasNineImages = false
     let hasImages = false
     let image
@@ -17,7 +17,7 @@
     // let isLoading = true
 
     $: filteredList = list.filter(l => l.addedToList).sort((a, b) => (a.order > b.order) ? 1 : -1)
-    // $: isVisible = filteredList.length > 0 ? true : false
+    $: isVisible = filteredList.length > 0 ? true : false
     $: hasNineImages = filteredList.filter(i => i.processedImage !== '').length === 9 ? true : false
     $: hasImages = filteredList.length < 1 ? false : true
     $: filteredList.length === 0 ? isActive = false : null
@@ -214,9 +214,9 @@
 
     @media only screen and (max-width: 768px) {
         .grid {
-            top: 70vh;
+            top: 20vh;
             left: unset;
-            opacity: .7;
+            opacity: .5;
         }
         
         .grid.active > .cell {
@@ -237,8 +237,8 @@
         }
 
         .grid > .cell {
-            width: 46px;
-            height: 46px;
+            width: 35px;
+            height: 35px;
         }
 
         .buttons {
@@ -247,9 +247,10 @@
         }
 
         .loading-wrapper {
-            top: 72vh;
+            top: 20vh;
             left: 36%;
             position: fixed;
+            opacity: 1;
         }
     }
 
@@ -259,7 +260,7 @@
     <div class="grid-backdrop" on:click={toggleGrid} transition:fade={{duration: 200}}></div>
 {/if}
 
-
+{#if (isMobile && isVisible) || !isMobile }
     <div class="wrapper" transition:fade class:active="{isActive}">
         <div class="grid" class:active="{isActive}" on:click|stopPropagation="{!isActive ? toggleGrid : null}">
             {#each filledFilteredList as i (i.id)}
@@ -301,3 +302,4 @@
             </div>
         {/if}
     </div>
+{/if}
