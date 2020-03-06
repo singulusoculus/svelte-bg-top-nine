@@ -7,10 +7,7 @@ const processImage = (index, image) => new Promise(async (resolve, reject) => {
     const proxyURL = 'https://mighty-waters-78900.herokuapp.com/' // my implementation of cors-anywhere
 
     const file = await urlToFile(image, filename, mimeType, proxyURL)
-    const imageEl = await resizeImage(file, index)
-    // console.log('resized Image: ', imageData.newImageEl.src)
-    // const croppedImage = await cropImage(imageData) 
-    // console.log('croppedImage: ', croppedImage.src)
+    const imageEl = await resizeCropImage(file, index)
 
     resolve(imageEl)
 })
@@ -26,14 +23,14 @@ const urlToFile = (url, filename, mimeType, proxyURL = '') =>  new Promise(async
     resolve(file)
 })
 
-const resizeImage = (file, index) => {
+const resizeCropImage = (file, index) => {
     const maxWidth = 352
     const maxHeight = 352
     const reader = new FileReader()
     const image = new Image()
     const canvasResize = document.createElement('canvas')
 
-    const resize = () => new Promise((resolve, reject) => {
+    const resizeCrop = () => new Promise((resolve, reject) => {
         let width = image.width
         let height = image.height
         if (width > height) {
@@ -71,8 +68,7 @@ const resizeImage = (file, index) => {
         if (coverWidth > maxWidth) {
             xOffset = (maxWidth - coverWidth) / 2
         }
-
-
+        
         // Resize
         canvasResize.width = width
         canvasResize.height = height
@@ -95,7 +91,6 @@ const resizeImage = (file, index) => {
             }
             croppedImageEl.src = croppedDataUrl
         }
-
         resizedImageEl.src = resizedDataUrl
     })
 
@@ -106,31 +101,15 @@ const resizeImage = (file, index) => {
         }
         reader.onload = (readerEvent) => {
             image.onload = async () => {
-                const data = await resize()
+                const processedImageEl = await resizeCrop()
                 // console.log('resize: ', data)
-                resolve(data)
+                resolve(processedImageEl)
             }
                 image.src = readerEvent.target.result
         }
             reader.readAsDataURL(file)
     })
 }
-
-const cropImage = (data) => new Promise((resolve, reject) => {
-    const canvasSingle = document.createElement('canvas')
-    canvasSingle.width = 352
-    canvasSingle.height = 352
-    const ctxSingle = canvasSingle.getContext('2d')
-
-    ctxSingle.drawImage(data.newImageEl, 0 + data.xOffset, 0 + data.yOffset, data.coverWidth, data.coverHeight)
-    const dataUrl = canvasSingle.toDataURL('image/png')
-
-    const croppedImageEl = new Image()
-    croppedImageEl.src = dataUrl
-
-    resolve(croppedImageEl)
-    
-})
 
 
 
