@@ -6,8 +6,8 @@
     import { generateTopNine } from './top-nine.js'
 
     export let list = []
-    // export let isLoading = false
 
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
     let isActive = false
     // let isVisible = false
     let hasNineImages = false
@@ -24,8 +24,6 @@
     $: filledFilteredList = fillList(filteredList)
     $: isLoading = filteredList.filter(i => i.processedImage === '').length > 0 ? true : false
     $: hasNineImages ? isActive = true : null
-    $: console.log('image source: ', image ? image.src : 'No image');
-    // $: console.log(isActive, hasImages);
 
     const fillList = (filteredList) => {
         const length = filteredList.filter(i => i.image).length
@@ -261,20 +259,17 @@
     <div class="grid-backdrop" on:click={toggleGrid} transition:fade={{duration: 200}}></div>
 {/if}
 
-<!-- {#if isVisible} -->
+
     <div class="wrapper" transition:fade class:active="{isActive}">
-        <!-- {#if isLoading}
-            <div class="loading-wrapper" transition:fade>
-                <Loading />
-            </div>
-        {/if} -->
         <div class="grid" class:active="{isActive}" on:click|stopPropagation="{!isActive ? toggleGrid : null}">
             {#each filledFilteredList as i (i.id)}
                 <div class="cell" on:drop={(event) => drop(event, i.order)} on:dragover={(event) => dragover(event)}>
                     {#if i.processedImage}
                         <img src="{i.processedImage.src}" alt="{i.name}" draggable="true" on:dragstart="{(event) => dragstart(event, i.order)}" bind:this={image}>
                     {/if}
-                    {#if i.image}
+                    {#if i.image && !isMobile}
+                        <i class="material-icons delete" on:click|stopPropagation={removeItem(i.id)}>delete</i>
+                    {:else if  isMobile && isActive && i.image}
                         <i class="material-icons delete" on:click|stopPropagation={removeItem(i.id)}>delete</i>
                     {/if}
                 </div>  
@@ -306,4 +301,3 @@
             </div>
         {/if}
     </div>
-<!-- {/if} -->

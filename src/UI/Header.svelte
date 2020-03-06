@@ -87,7 +87,7 @@
     /* SIDENAV */
     .menu-btn {
         color: #fff;
-        position: fixed;
+        position: absolute;
         left: 2rem;
         display: none;
     }

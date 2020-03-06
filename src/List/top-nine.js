@@ -7,7 +7,7 @@ const processImage = (index, image) => new Promise(async (resolve, reject) => {
     const proxyURL = 'https://mighty-waters-78900.herokuapp.com/' // my implementation of cors-anywhere
 
     const file = await urlToFile(image, filename, mimeType, proxyURL)
-    const imageEl = await resizeCropImage(file, index)
+    const imageEl = await resizeCropImage(file)
 
     resolve(imageEl)
 })
@@ -23,7 +23,7 @@ const urlToFile = (url, filename, mimeType, proxyURL = '') =>  new Promise(async
     resolve(file)
 })
 
-const resizeCropImage = (file, index) => {
+const resizeCropImage = (file) => {
     const maxWidth = 352
     const maxHeight = 352
     const reader = new FileReader()
@@ -64,7 +64,7 @@ const resizeCropImage = (file, index) => {
             coverHeight = maxHeight
         }
 
-        // calculate offset - if widthe is longer than maxSize
+        // calculate offset - if width is longer than maxSize
         if (coverWidth > maxWidth) {
             xOffset = (maxWidth - coverWidth) / 2
         }
@@ -77,19 +77,23 @@ const resizeCropImage = (file, index) => {
 
         const resizedImageEl = new Image()
         resizedImageEl.onload = () => {
-            // Crop
-            const canvasCrop = document.createElement('canvas')
-            canvasCrop.width = 352
-            canvasCrop.height = 352
-            canvasCrop.getContext('2d').drawImage(resizedImageEl, 0 + xOffset, 0 + yOffset, coverWidth, coverHeight)
-    
-            const croppedDataUrl = canvasCrop.toDataURL('image/png')
+            if (width !== height) {
+                // Crop if not a square
+                const canvasCrop = document.createElement('canvas')
+                canvasCrop.width = 352
+                canvasCrop.height = 352
+                canvasCrop.getContext('2d').drawImage(resizedImageEl, 0 + xOffset, 0 + yOffset, coverWidth, coverHeight)
         
-            const croppedImageEl = new Image()
-            croppedImageEl.onload = () => {
-                resolve(croppedImageEl)
+                const croppedDataUrl = canvasCrop.toDataURL('image/png')
+            
+                const croppedImageEl = new Image()
+                croppedImageEl.onload = () => {
+                    resolve(croppedImageEl)
+                }
+                croppedImageEl.src = croppedDataUrl
+            } else {
+                resolve(resizedImageEl)
             }
-            croppedImageEl.src = croppedDataUrl
         }
         resizedImageEl.src = resizedDataUrl
     })

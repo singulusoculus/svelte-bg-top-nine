@@ -133,7 +133,7 @@
 
     .section-title {
         line-height: 32px;
-        font-size: 2.8rem;
+        font-size: 2.5rem;
         font-weight: 300;
         margin: 1rem .8rem 0 .8rem;
     }
