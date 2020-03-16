@@ -88,16 +88,18 @@
 
 <Collapsible title="BGG Search" icon="search" isOpen={false}>
     <p class="center">Note: Each search returns at most 50 results at a time. If you do not see what you are looking for be more specific or try an exact search by wrapping your search text in double quotes. Ex: "Risk". Please keep special characters in mind.</p>
-    <TextInput label="Search Text" id="bgg-search-text" on:textChange="{(event) => searchText = event.detail}" />
-    <div class="search-controls">
-        <div>
-            <span class="bgg-filter-heading">Search For:</span>
-            <RadioButtons {radioButtons} on:select="{(event) => searchType = event.detail}" />
+    <form>
+        <TextInput label="Search Text" id="bgg-search-text" on:textChange="{(event) => searchText = event.detail}" />
+        <div class="search-controls">
+            <div>
+                <span class="bgg-filter-heading">Search For:</span>
+                <RadioButtons {radioButtons} on:select="{(event) => searchType = event.detail}" />
+            </div>
+            <div>
+                <Button text="Search" icon="arrow_forward" on:click={handleBGGSearchRequest} disabled={isLoading}/>
+            </div>
         </div>
-        <div>
-            <Button text="Go" icon="arrow_forward" on:click={handleBGGSearchRequest} />
-        </div>
-    </div>
+    </form>
     {#if isLoading}
         <Loading />
     {/if}

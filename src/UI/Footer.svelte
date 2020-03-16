@@ -10,6 +10,7 @@
         height: 4rem;
         background-color: black;
         color: rgba(255,255,255,0.8);
+        margin-top: 1rem;
     }
 
     p {
@@ -18,5 +19,5 @@
 </style>
 
 <footer>
-    <p>Designed by Brian Casey | v{version} | © 2020 Pub Meeple </p>
+    <p>Created by Brian Casey | v{version} | © 2020 Pub Meeple </p>
 </footer>

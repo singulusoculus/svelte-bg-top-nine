@@ -6,19 +6,19 @@
 	let navItems = [
 		{
 			name: 'Pub Meeple Home',
-			href: ''
+			href: 'https://www.pubmeeple.com'
         },
         {
             name: 'Ranking Engine',
-            href: ''
+            href: 'https://rankingengine.pubmeeple.com'
         },
         {
             name: 'Podcast',
-            href: ''
+            href: 'https://www.pubmeeple.com/pub-meeple-podcast'
         },
         {
             name: 'Contact',
-            href: ''
+            href: 'https://www.pubmeeple.com/contact'
         }
     ]
     
@@ -35,7 +35,7 @@
         display: flex;
         justify-content: space-between;
         background-color: #3F5061;
-        height: 6rem;
+        height: 6.4rem;
         font-size: 1.5rem;
         box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
         --webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
@@ -44,7 +44,7 @@
     .title {
         display: flex;
         align-items: center;
-        margin: 0 1rem;
+        margin: 0 2rem;
     }
 
     img {
@@ -54,6 +54,8 @@
     h1 {
         color: white;
         margin: 0 1rem;
+        font-size: 3.2rem;
+        font-weight: 400;
     }
 
     /* MAIN NAV */

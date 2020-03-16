@@ -55,6 +55,9 @@ const customListStore = {
     },
     clearList: () => {
         list.update(items => {
+            // let searchExists = items.filter(i => i.source === 'bgg-search' && !i.addedToList).length > 0 ? true : false
+            // let collectionExists = items.filter(i => i.source === 'bgg-collection' && !i.addedToList).length > 0 ? true: false
+            
             items.forEach(i => {
                 i.addedToList = false
             })
@@ -106,7 +109,6 @@ const customListStore = {
             const index = items.findIndex(i => i.id === id)
             const itemToUpdate = items[index]
             itemToUpdate.processedImage = image
-            // alert(itemToUpdate.processedImage.src)
             const updatedItems = [...items]
             updatedItems[index] = itemToUpdate
             return updatedItems

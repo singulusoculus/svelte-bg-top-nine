@@ -47,7 +47,7 @@
 </style>
 
 
-<button type="submit" on:click|stopPropagation disabled={disabled}>
+<button type="submit" on:click|stopPropagation|preventDefault disabled={disabled}>
     <span>{text}</span>
     <i class="material-icons">
         {icon}
