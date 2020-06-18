@@ -1,10 +1,25 @@
 import uuidv4 from 'uuid'
 import { sortListData } from './utilities.js'
 
+const checkURLStatus = (url, times, delay) => {
+  return new Promise((resolve, reject) => {                       
+    (function rec(i) {                                   
+        fetch(url).then((response) => {                          
+          resolve(response);                                     
+        }).catch( error => {
+          if (times === 0)                             
+              return reject(error);                       
+          setTimeout(() => rec(--times), delay )       
+        })                                          
+    })(times)
+  })
+}
+
 // Shared Functions
 const getBGGData = (url) => {
     return new Promise((resolve, reject) => {
-      fetch(url)
+      checkURLStatus(url, 3, 5000)
+      //fetch(url)
         .then(response => handleErrors(response))
         .then(response => response.text())
         .then(str => (new window.DOMParser()).parseFromString(str, 'text/xml'))

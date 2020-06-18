@@ -11,7 +11,7 @@
 	import YourListGrid from './List/YourListGrid.svelte'
 	import list from './List/list-store.js'
 
-	let version = '2.0.0'
+	let version = '2.0.1'
 	const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
 
 	$: filteredList = $list.filter(l => l.addedToList).sort((a, b) => (a.order > b.order) ? 1 : -1)
