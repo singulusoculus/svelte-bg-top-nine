@@ -19,6 +19,10 @@
         {
             name: 'Contact',
             href: 'https://www.pubmeeple.com/contact'
+        },
+        {
+            name: 'Donate',
+            href: 'https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=pubmeeple@gmail.com&item_name=Friends+of+the+Pub&item_number=For+RE&currency_code=USD'
         }
     ]
     
@@ -160,14 +164,14 @@
     </div>
     <ul class="main-nav">
         {#each navItems as item}
-            <li><a href="{item.href}">{item.name}</a></li>
+            <li><a href="{item.href}" target="_blank">{item.name}</a></li>
         {/each}
     </ul>
 
     {#if sideNavVisible}
     <ul class="sidenav" transition:fly={{x: -300, duration: 300}}>
         {#each navItems as item}
-            <li><a href="{item.href}">{item.name}</a></li>
+            <li><a href="{item.href}" target="_blank">{item.name}</a></li>
         {/each}
     </ul>
     {/if}

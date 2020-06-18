@@ -4,6 +4,7 @@
     import Loading from '../UI/Loading.svelte'
     import listStore from './list-store'
     import { generateTopNine } from './top-nine.js'
+    import { createEventDispatcher } from 'svelte'
 
     export let list = []
 
@@ -13,6 +14,7 @@
     let hasNineImages = false
     let hasImages = false
     let image
+    const dispatch = createEventDispatcher()
 
     // let isLoading = true
 
@@ -65,14 +67,16 @@
         }
     }
 
-    const handleDownloadTopNine = () => {
+    const handleDownloadTopNine = async () => {
         const list = [...filteredList]
         let newList = []
         list.forEach(i => {
             newList.push({image: i.processedImage})
         })
 
-        generateTopNine(newList)
+
+        await generateTopNine(newList)
+        dispatch('downloaded')
     }
 
     const clearList = () => {

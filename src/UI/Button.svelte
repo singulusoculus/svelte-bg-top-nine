@@ -2,6 +2,7 @@
     export let text = "Placeholder"
     export let icon = "arrow_forward"
     export let disabled = false
+    export let linkref = null
 </script>
 
 <style>
@@ -44,12 +45,27 @@
     i {
         margin-left: 1rem;
     }
+
+    a {
+        text-decoration: none;
+    }
 </style>
 
+{#if linkref}
+<a href="{linkref}" target="_blank">
+    <button type="button"  disabled={disabled}>
+        <span>{text}</span>
+        <i class="material-icons">
+            {icon}
+        </i>
+    </button>
+</a>
+{:else}
+    <button type="submit" on:click|stopPropagation|preventDefault disabled={disabled}>
+        <span>{text}</span>
+        <i class="material-icons">
+            {icon}
+        </i>
+    </button>
+{/if}
 
-<button type="submit" on:click|stopPropagation|preventDefault disabled={disabled}>
-    <span>{text}</span>
-    <i class="material-icons">
-        {icon}
-    </i>
-</button>
