@@ -13,7 +13,7 @@
 	import Button from './UI/Button.svelte'
 	import list from './List/list-store.js'
 
-	let version = '2.0.2'
+	let version = '2.0.3'
 	const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
 	let modalOpen = false
 
@@ -88,7 +88,7 @@
 			<Modal title="Hey, nice image!" on:cancel={toggleModal}>
 				 If you found this tool useful please consider putting something in our tip jar.
 				<div slot="footer" class="modal-buttons">
-					<Button text="Paypal" linkref="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=pubmeeple@gmail.com&item_name=Friends+of+the+Pub&item_number=For+RE&currency_code=USD"></Button>
+					<Button text="Paypal" linkref="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=pubmeeple@gmail.com&item_name=Friends+of+the+Pub&item_number=For+Top+Nine&currency_code=USD"></Button>
 					<Button text="Close" icon="close" on:click={toggleModal}></Button>
 				</div>
 			</Modal>

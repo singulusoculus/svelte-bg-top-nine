@@ -2,16 +2,22 @@ import uuidv4 from 'uuid'
 import { sortListData } from './utilities.js'
 
 const checkURLStatus = (url, times, delay) => {
-  return new Promise((resolve, reject) => {                       
-    (function rec(i) {                                   
-        fetch(url).then((response) => {                          
-          resolve(response);                                     
-        }).catch( error => {
-          if (times === 0)                             
-              return reject(error);                       
-          setTimeout(() => rec(--times), delay )       
-        })                                          
-    })(times)
+  return new Promise((resolve, reject) => {
+    (function rec(i) {
+      fetch(url).then((response) => {
+        if (response.status === 200) {
+          resolve(response)
+        } else {
+          if (i !== 0) {
+            setTimeout(() => rec(--i), delay )
+          } else {
+            throw new Error('Unable to pull collection')
+          }
+        }
+      }).catch(error => {
+        return reject(error)
+      })
+    })(times);
   })
 }
 
