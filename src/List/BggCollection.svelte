@@ -177,6 +177,7 @@
     <div class="bgg-collection-request" out:fade in:fade="{{delay: 300}}">
         <form>
             <TextInput label="BGG User Name" id="bgg-username" on:textChange="{(event) => bggUserName = event.detail.trim().replace(/ /g, '%20')}" />
+            <p class="center">Need a BGG account? <a href="https://boardgamegeek.com/join" target="_blank">Get one here!</a></p>
             <div class="get-collection-controls">
                 <Switch title="Include Expansions?" on:clicked="{(event) => getExpansions = event.detail}" />
                 <Button text="Go" icon="arrow_forward" on:click={handleBGGCollectionRequest} disabled={isLoading} />
