@@ -164,16 +164,18 @@ const renderBackground = (ctx) => new Promise((resolve, reject) => {
         ctx.drawImage(backgroundImage, 0, 0)
         resolve()
       }
-      backgroundImage.src = '../images/background.png' // '../images/background.png'
+      backgroundImage.src = '../images/background.png' 
     })
 
 const renderLogo = (ctx) => new Promise((resolve, reject) => {
       const logoImage = new Image()
       logoImage.onload = () => {
-        ctx.drawImage(logoImage, 665, 995)
+        // ctx.drawImage(logoImage, 665, 995)
+        ctx.drawImage(logoImage, 0, 0)
         resolve()
       }
-      logoImage.src = '../images/pm-banner-top9.png' // '../images/pm-banner-top9.png'
+      // logoImage.src = '../images/logo-overlay-pm-bgg.png'
+      logoImage.src = '../images/logo-overlay-pm.png'
     })
 
 const renderImage = (data, ctx) => new Promise((resolve, reject) => {
