@@ -174,8 +174,8 @@ const renderLogo = (ctx) => new Promise((resolve, reject) => {
         ctx.drawImage(logoImage, 0, 0)
         resolve()
       }
-      // logoImage.src = '../images/logo-overlay-pm-bgg.png'
-      logoImage.src = '../images/logo-overlay-pm.png'
+      logoImage.src = '../images/logo-overlay-pm-bgg.png'
+    //   logoImage.src = '../images/logo-overlay-pm.png'
     })
 
 const renderImage = (data, ctx) => new Promise((resolve, reject) => {
