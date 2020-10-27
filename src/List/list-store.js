@@ -40,7 +40,7 @@ const customListStore = {
     },
     resetBGGCollection: () => {
         list.update(items => {
-            return items.filter(i => !i.source === 'bgg-collection' || i.addedToList)
+            return items.filter(i => !i.source === 'bgg-collection' || i.addedToList || i.source === 'bgg-search')
         })
     },
     addSearchData: (data) => {
@@ -50,7 +50,7 @@ const customListStore = {
     },
     resetSearchData: () => {
         list.update(items => {
-            return items.filter(i => !i.source === 'bgg-search' || i.addedToList)
+            return items.filter(i => !i.source === 'bgg-search' || i.addedToList || i.source === 'bgg-collection')
         })
     },
     clearList: () => {
