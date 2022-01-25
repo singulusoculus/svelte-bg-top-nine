@@ -230,7 +230,7 @@ const createBGGSearchList = (items) => {
 const getBGGCollection = (user, expansions) => new Promise(async (resolve, reject) => {
   // disable submit button
 
-  let queryUrl = `https://www.boardgamegeek.com/xmlapi2/collection?username=${user}&stats=1`
+  let queryUrl = `https://boardgamegeek.com/xmlapi2/collection?username=${user}&stats=1`
 
   if (!expansions) {
       queryUrl += '&excludesubtype=boardgameexpansion'
